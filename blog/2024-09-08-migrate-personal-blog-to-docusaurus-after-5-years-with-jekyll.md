@@ -1,5 +1,5 @@
 ---
-title: From Jekyll to Docusaurus, Why I Migrated My Blog After 5 Years
+title: From Jekyll to Docusaurus, I Migrated My Blog After 5 Years
 description: After five years of running my engineering blog on Jekyll, I’ve decided to migrate to Docusaurus
 tags: [blog, docusaurus]
 authors: [niko]
