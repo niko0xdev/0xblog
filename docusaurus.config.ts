@@ -34,7 +34,7 @@ const config: Config = {
       {
         docs: false,
         gtag: {
-          trackingID: "GTM-K96M6NZP",
+          trackingID: "G-8J84G37YMT",
           anonymizeIP: true,
         },
         blog: {
