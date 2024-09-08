@@ -94,15 +94,21 @@ Customizing Docusaurus was a breeze compared to Jekyll. I used Tailwind CSS for 
 I set up GitHub Actions to automate the build and deployment process. The new workflow file in `.github/workflows/deploy.yml` ensures that any changes pushed to the `main` branch are automatically built and deployed:
 
 ```yaml
-name: Build and Deploy Docusaurus Site
+name: Build and Deploy Site
 
 on:
   push:
     branches:
       - main
 
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency:
-  group: 'docusaurus-${{ github.workflow }}-${{ github.ref }}'
+  group: "pages"
   cancel-in-progress: true
 
 jobs:
@@ -116,19 +122,33 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: "20"
+
+      - name: Setup tools
+        run: |
+          npm i -g pnpm
 
       - name: Install dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Build Docusaurus site
-        run: npm run build
+        run: pnpm build
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          path: ./build
+  
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 ### Conclusion
