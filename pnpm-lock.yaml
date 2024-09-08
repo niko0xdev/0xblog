@@ -32,6 +32,9 @@ importers:
       postcss:
         specifier: ^8.4.45
         version: 8.4.45
+      preset-classic~:
+        specifier: "link:\e[200~@docusaurus/preset-classic~"
+        version: "link:\e[200~@docusaurus/preset-classic~"
       prism-react-renderer:
         specifier: ^2.3.0
         version: 2.4.0(react@18.3.1)

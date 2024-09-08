@@ -23,6 +23,7 @@
     "autoprefixer": "^10.4.20",
     "clsx": "^2.0.0",
     "postcss": "^8.4.45",
+    "preset-classic~": "link:\u001b[200~@docusaurus/preset-classic~",
     "prism-react-renderer": "^2.3.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
