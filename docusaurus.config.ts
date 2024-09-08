@@ -20,8 +20,13 @@ const config: Config = {
   organizationName: "niko0xdev", // Usually your GitHub org/user name.
   projectName: "0xblog", // Usually your repo name.
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: "ignore",
   onBrokenMarkdownLinks: "warn",
+
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en"],
+  },
 
   presets: [
     [
