@@ -67,7 +67,7 @@ const config: Config = {
         src: "img/logo.jpg",
       },
       items: [
-        { to: "https://work.0xniko.dev", label: "About me", position: "left" },
+        { to: "https://0xniko.dev", label: "About me", position: "left" },
         {
           href: "https://github.com/niko0xdev",
           label: "GitHub",
