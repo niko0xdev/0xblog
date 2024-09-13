@@ -120,9 +120,21 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
+    mermaid: {
+      theme: { light: "neutral", dark: "forest" },
+      options: {
+        maxTextSize: 50,
+      },
+    },
   } satisfies Preset.ThemeConfig,
 
   plugins: [tailwindPlugin],
+
+  markdown: {
+    mermaid: true,
+  },
+
+  themes: ["@docusaurus/theme-mermaid"],
 };
 
 export default config;
