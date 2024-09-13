@@ -122,9 +122,6 @@ const config: Config = {
     },
     mermaid: {
       theme: { light: "neutral", dark: "forest" },
-      options: {
-        maxTextSize: 50,
-      },
     },
   } satisfies Preset.ThemeConfig,
 
