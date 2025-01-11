@@ -1,5 +1,5 @@
 ---
-title: Applied AI Series - Re-ranking in RAG, Enhancing the Retrieval Process for Better Results
+title: Applied AI Series - RAG Better Results with Re-ranking
 description: In the world of artificial intelligence, particularly in systems that rely on Retrieval-Augmented Generation (RAG), achieving the best possible responses hinges on a smooth interplay between retrieving relevant information and generating coherent answers. But the retrieval phase, the first step of RAG, isn't always as straightforward as it seems. With vast datasets or complex queries, it’s often necessary to refine the results. That’s where re-ranking comes into play.
 tags: [rag, ai, ai-series, re-ranking, reranker]
 authors: [niko]
