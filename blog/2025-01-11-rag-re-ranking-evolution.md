@@ -75,7 +75,7 @@ To help you better understand the role of RAG (Retrieve and Generate) in an AI a
 
 Traditional retrieval-based re-rankers rely on statistical models to rank the relevance of retrieved documents. These models typically analyze features such as term frequency, document length, and inverse document frequency to score documents. While they are computationally efficient and easy to implement, they often lack the semantic depth and contextual understanding of more advanced models.
 
-#### Key Techniques:
+#### **Key Techniques:**
 
 - TF-IDF (Term Frequency-Inverse Document Frequency):
   - TF-IDF is one of the oldest and most widely used methods for ranking documents in information retrieval. It scores documents based on how frequently a term appears in the document (Term Frequency) and how rare or common the term is across the entire dataset (Inverse Document Frequency).
@@ -86,7 +86,7 @@ Traditional retrieval-based re-rankers rely on statistical models to rank the re
   - Pros: Robust performance in many standard retrieval tasks; works well for general-purpose search engines.
   - Cons: Like TF-IDF, it doesn’t account for deeper semantic meaning or context.
 
-#### When to Use:
+#### **When to Use:**
 
 Traditional re-ranking techniques like TF-IDF and BM25 are useful in situations where speed and simplicity are paramount, and when the data does not require deep semantic analysis. These methods are typically a starting point before transitioning to more complex neural-based re-ranking approaches.
 
@@ -94,7 +94,7 @@ Traditional re-ranking techniques like TF-IDF and BM25 are useful in situations 
 
 Neural-based re-ranking models leverage deep learning techniques to rank documents based on their semantic relevance to a given query. These models go beyond surface-level keyword matching and instead consider the meanings, relationships, and context of both the query and the retrieved documents.
 
-#### Key Techniques:
+#### **Key Techniques:**
 
 - Transformer-based Models (e.g., BERT, RoBERTa, ALBERT):
 
@@ -114,7 +114,7 @@ Neural-based re-ranking models leverage deep learning techniques to rank documen
   - Pros: Extremely good at semantic matching between queries and documents; can outperform traditional methods in complex search tasks.
   - Cons: Like BERT, it can be resource-intensive, especially for large-scale datasets.
 
-#### When to Use:
+#### **When to Use:**
 
 Neural-based re-rankers are ideal for more complex, context-rich queries, particularly where the interaction between the query and documents is nuanced. These models are highly beneficial when semantic understanding and contextual relevance are important, but the computational cost is higher.
 
@@ -122,7 +122,7 @@ Neural-based re-rankers are ideal for more complex, context-rich queries, partic
 
 Learning-to-Rank is a machine learning approach where models are trained specifically to rank documents according to a given query. LTR models use labeled training data to learn which features (such as term relevance, document quality, semantic similarity, etc.) contribute most to the relevance of a document to a specific query.
 
-#### Key Techniques:
+#### **Key Techniques:**
 
 - Gradient Boosted Decision Trees (GBDT):
 
@@ -142,7 +142,7 @@ Learning-to-Rank is a machine learning approach where models are trained specifi
   - Pros: High performance when there is enough labeled data for training; good at combining multiple features.
   - Cons: Requires a large dataset for training, and fine-tuning can be complex.
 
-#### When to Use:
+#### **When to Use:**
 
 Learning-to-Rank models are best for scenarios where you have labeled training data and want to tailor the re-ranking to a specific set of features that influence relevance. This approach is commonly used in search engines and personalized information retrieval systems.
 
@@ -150,7 +150,7 @@ Learning-to-Rank models are best for scenarios where you have labeled training d
 
 Hybrid models combine the strengths of traditional information retrieval techniques and neural-based models to achieve optimal performance. These systems often use a multi-step process, where an initial retrieval phase is followed by a neural re-ranking phase that refines the results.
 
-#### Key Techniques:
+#### **Key Techniques:**
 
 - Combining BM25 with BERT or RoBERTa:
 
@@ -164,7 +164,7 @@ Hybrid models combine the strengths of traditional information retrieval techniq
   - Pros: Enables the model to leverage the best of both worlds—semantic understanding and feature-rich analysis.
   - Cons: Feature engineering and model training can be complex and time-consuming.
 
-#### When to Use:
+#### **When to Use:**
 
 Hybrid re-ranking models are ideal when you want to take advantage of both traditional efficiency and advanced semantic understanding. These models work well when you're balancing real-time performance with high-quality, nuanced ranking.
 
