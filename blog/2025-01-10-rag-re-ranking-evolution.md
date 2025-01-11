@@ -1,9 +1,11 @@
 ---
 title: Applied AI Series - RAG Better Results with Re-ranking
-description: In the world of artificial intelligence, particularly in systems that rely on Retrieval-Augmented Generation (RAG), achieving the best possible responses hinges on a smooth interplay between retrieving relevant information and generating coherent answers. But the retrieval phase, the first step of RAG, isn't always as straightforward as it seems. With vast datasets or complex queries, it’s often necessary to refine the results. That’s where re-ranking comes into play.
+description: Re-ranking in Retrieval-Augmented Generation (RAG) refines the documents retrieved in response to a user query, ensuring that only the most relevant and contextually appropriate ones are passed to the generation model. This step enhances response accuracy, handles ambiguity, and improves overall result quality by prioritizing the best matches for the query, ultimately leading to more precise and coherent AI-generated answers.
 tags: [rag, ai, ai-series, re-ranking, reranker]
 authors: [niko]
 ---
+
+Re-ranking in Retrieval-Augmented Generation (RAG) refines the documents retrieved in response to a user query, ensuring that only the most relevant and contextually appropriate ones are passed to the generation model. This step enhances response accuracy, handles ambiguity, and improves overall result quality by prioritizing the best matches for the query, ultimately leading to more precise and coherent AI-generated answers.
 
 <!-- truncate -->
 
@@ -185,51 +187,13 @@ By carefully considering these factors, you can select the most effective re-ran
 
 ## References
 
-- **Retrieval-Augmented Generation (RAG) - A Survey**
-
-  - Link: [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
-  - This paper provides an in-depth overview of RAG, including the importance of combining retrieval and generation and the role of various components in improving model performance.
-
-- **What is Retrieval-Augmented Generation (RAG)?**
-
-  - Link: [AWS](https://aws.amazon.com/what-is/retrieval-augmented-generation/)
-  - A high-level explanation of RAG, its applications, and its relevance in building intelligent systems that combine search with content generation.
-
-- **RAG: A New Era of Language Model Integration**
-
-  - Link: [NVIDIA Blog](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/)
-  - Insights on how RAG is used to enhance large language models and provide more accurate, relevant, and contextually rich responses.
-
-- **Microsoft Azure: Overview of Retrieval-Augmented Generation**
-
-  - Link: [Microsoft Docs](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
-  - Overview of how RAG works in the context of Azure services and how it's applied to enterprise-level data search and document generation.
-
-- **Dense Passage Retrieval for Open-Domain Question Answering**
-
-  - Link: [arXiv:2004.04906](https://arxiv.org/abs/2004.04906)
-  - A detailed exploration of Dense Passage Retrieval (DPR), a key technology in modern information retrieval systems, including its role in re-ranking and question answering.
-
-- **Learning to Rank with Neural Networks: RankNet**
-
-  - Link: [Microsoft Research](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/RankNet-Technical-Report.pdf)
-  - This paper introduces RankNet, a neural network model for learning-to-rank tasks, commonly used in re-ranking systems for document retrieval.
-
-- **BERT for Re-ranking: Understanding How Transformers Work in Information Retrieval**
-
-  - Link: [Medium - Towards Data Science](https://towardsdatascience.com/using-bert-for-re-ranking-information-retrieval-cf097d9a5899)
-  - An article that explains how BERT and other transformer models are applied in re-ranking to enhance the relevance of retrieved documents.
-
-- **BM25: Probabilistic Ranking Function**
-
-  - Link: [Wikipedia](https://en.wikipedia.org/wiki/BM25)
-  - The Wikipedia entry provides a detailed explanation of BM25, a widely used probabilistic ranking function in information retrieval systems.
-
-- **XGBoost: A Comprehensive Guide**
-
-  - Link: [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
-  - The official documentation for XGBoost, a popular machine learning algorithm often used in Learning-to-Rank (LTR) models for re-ranking documents.
-
-- **Introduction to Learning-to-Rank Algorithms**
-  - Link: [DataCamp Blog](https://www.datacamp.com/community/blog/learning-to-rank)
-  - A beginner-friendly blog post explaining the basics of Learning-to-Rank algorithms, which are key in modern re-ranking systems.
+- [Retrieval-Augmented Generation (RAG) - A Survey](https://arxiv.org/abs/2005.11401)
+- [What is Retrieval-Augmented Generation (RAG)?](https://aws.amazon.com/what-is/retrieval-augmented-generation/)
+- [RAG: A New Era of Language Model Integration](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/)
+- [Microsoft Azure: Overview of Retrieval-Augmented Generation](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
+- [Dense Passage Retrieval for Open-Domain Question Answering](https://arxiv.org/abs/2004.04906)
+- [Learning to Rank with Neural Networks: RankNet](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/RankNet-Technical-Report.pdf)
+- [BERT for Re-ranking: Understanding How Transformers Work in Information Retrieval](https://towardsdatascience.com/using-bert-for-re-ranking-information-retrieval-cf097d9a5899)
+- [BM25: Probabilistic Ranking Function](https://en.wikipedia.org/wiki/BM25)
+- [XGBoost: A Comprehensive Guide](https://xgboost.readthedocs.io/en/latest/)
+- [Introduction to Learning-to-Rank Algorithms](https://www.datacamp.com/community/blog/learning-to-rank)
