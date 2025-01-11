@@ -63,3 +63,8 @@
 .navbar .navbar__logo img {
   @apply rounded-full;
 }
+
+#__blog-post-container ul {
+  list-style: revert;
+  padding-left: 1rem;
+}

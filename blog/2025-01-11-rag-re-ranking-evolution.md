@@ -12,10 +12,10 @@ authors: [niko]
 ```mermaid
 graph TD
     A[User Query] --> B[Retrieve Documents]
-    B --> C[Initial Retrieval (e.g., BM25, TF-IDF)]
+    B --> C[Initial Retrieval]
     C --> D[Re-ranking]
     D --> E[Ranked Documents]
-    E --> F[Generate Response (LLM)]
+    E --> F[Generate Response - LLM]
     F --> G[Contextualized Answer]
     G --> H[User Receives Answer]
 
@@ -185,51 +185,51 @@ By carefully considering these factors, you can select the most effective re-ran
 
 ## References
 
-1. **Retrieval-Augmented Generation (RAG) - A Survey**
+- **Retrieval-Augmented Generation (RAG) - A Survey**
 
-   - Link: [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
-   - This paper provides an in-depth overview of RAG, including the importance of combining retrieval and generation and the role of various components in improving model performance.
+  - Link: [arXiv:2005.11401](https://arxiv.org/abs/2005.11401)
+  - This paper provides an in-depth overview of RAG, including the importance of combining retrieval and generation and the role of various components in improving model performance.
 
-2. **What is Retrieval-Augmented Generation (RAG)?**
+- **What is Retrieval-Augmented Generation (RAG)?**
 
-   - Link: [AWS](https://aws.amazon.com/what-is/retrieval-augmented-generation/)
-   - A high-level explanation of RAG, its applications, and its relevance in building intelligent systems that combine search with content generation.
+  - Link: [AWS](https://aws.amazon.com/what-is/retrieval-augmented-generation/)
+  - A high-level explanation of RAG, its applications, and its relevance in building intelligent systems that combine search with content generation.
 
-3. **RAG: A New Era of Language Model Integration**
+- **RAG: A New Era of Language Model Integration**
 
-   - Link: [NVIDIA Blog](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/)
-   - Insights on how RAG is used to enhance large language models and provide more accurate, relevant, and contextually rich responses.
+  - Link: [NVIDIA Blog](https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/)
+  - Insights on how RAG is used to enhance large language models and provide more accurate, relevant, and contextually rich responses.
 
-4. **Microsoft Azure: Overview of Retrieval-Augmented Generation**
+- **Microsoft Azure: Overview of Retrieval-Augmented Generation**
 
-   - Link: [Microsoft Docs](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
-   - Overview of how RAG works in the context of Azure services and how it's applied to enterprise-level data search and document generation.
+  - Link: [Microsoft Docs](https://learn.microsoft.com/en-us/azure/search/retrieval-augmented-generation-overview)
+  - Overview of how RAG works in the context of Azure services and how it's applied to enterprise-level data search and document generation.
 
-5. **Dense Passage Retrieval for Open-Domain Question Answering**
+- **Dense Passage Retrieval for Open-Domain Question Answering**
 
-   - Link: [arXiv:2004.04906](https://arxiv.org/abs/2004.04906)
-   - A detailed exploration of Dense Passage Retrieval (DPR), a key technology in modern information retrieval systems, including its role in re-ranking and question answering.
+  - Link: [arXiv:2004.04906](https://arxiv.org/abs/2004.04906)
+  - A detailed exploration of Dense Passage Retrieval (DPR), a key technology in modern information retrieval systems, including its role in re-ranking and question answering.
 
-6. **Learning to Rank with Neural Networks: RankNet**
+- **Learning to Rank with Neural Networks: RankNet**
 
-   - Link: [Microsoft Research](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/RankNet-Technical-Report.pdf)
-   - This paper introduces RankNet, a neural network model for learning-to-rank tasks, commonly used in re-ranking systems for document retrieval.
+  - Link: [Microsoft Research](https://www.microsoft.com/en-us/research/wp-content/uploads/2007/01/RankNet-Technical-Report.pdf)
+  - This paper introduces RankNet, a neural network model for learning-to-rank tasks, commonly used in re-ranking systems for document retrieval.
 
-7. **BERT for Re-ranking: Understanding How Transformers Work in Information Retrieval**
+- **BERT for Re-ranking: Understanding How Transformers Work in Information Retrieval**
 
-   - Link: [Medium - Towards Data Science](https://towardsdatascience.com/using-bert-for-re-ranking-information-retrieval-cf097d9a5899)
-   - An article that explains how BERT and other transformer models are applied in re-ranking to enhance the relevance of retrieved documents.
+  - Link: [Medium - Towards Data Science](https://towardsdatascience.com/using-bert-for-re-ranking-information-retrieval-cf097d9a5899)
+  - An article that explains how BERT and other transformer models are applied in re-ranking to enhance the relevance of retrieved documents.
 
-8. **BM25: Probabilistic Ranking Function**
+- **BM25: Probabilistic Ranking Function**
 
-   - Link: [Wikipedia](https://en.wikipedia.org/wiki/BM25)
-   - The Wikipedia entry provides a detailed explanation of BM25, a widely used probabilistic ranking function in information retrieval systems.
+  - Link: [Wikipedia](https://en.wikipedia.org/wiki/BM25)
+  - The Wikipedia entry provides a detailed explanation of BM25, a widely used probabilistic ranking function in information retrieval systems.
 
-9. **XGBoost: A Comprehensive Guide**
+- **XGBoost: A Comprehensive Guide**
 
-   - Link: [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
-   - The official documentation for XGBoost, a popular machine learning algorithm often used in Learning-to-Rank (LTR) models for re-ranking documents.
+  - Link: [XGBoost Documentation](https://xgboost.readthedocs.io/en/latest/)
+  - The official documentation for XGBoost, a popular machine learning algorithm often used in Learning-to-Rank (LTR) models for re-ranking documents.
 
-10. **Introduction to Learning-to-Rank Algorithms**
-    - Link: [DataCamp Blog](https://www.datacamp.com/community/blog/learning-to-rank)
-    - A beginner-friendly blog post explaining the basics of Learning-to-Rank algorithms, which are key in modern re-ranking systems.
+- **Introduction to Learning-to-Rank Algorithms**
+  - Link: [DataCamp Blog](https://www.datacamp.com/community/blog/learning-to-rank)
+  - A beginner-friendly blog post explaining the basics of Learning-to-Rank algorithms, which are key in modern re-ranking systems.
