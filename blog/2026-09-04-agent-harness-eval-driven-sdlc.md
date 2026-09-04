@@ -27,7 +27,16 @@ Modern frontier models increasingly optimize for workloads such as:
 * large-context reasoning.
 The direction of travel looks roughly like this:
 
-![Model capability progression from question answering to long-running work](/img/agent-harness-eval-driven-sdlc/01-capability-progression.png)
+```mermaid
+flowchart LR
+    A["Question<br/>Answering"]
+    B["Reasoning"]
+    C["Coding"]
+    D["Tool Use"]
+    E["Agentic Tasks"]
+    F["Long-running<br/>Work"]
+    A --> B --> C --> D --> E --> F
+```
 
 A model is no longer expected to simply produce a good answer.
 An Agent must be able to:
@@ -63,7 +72,30 @@ Typical components include:
 * observability;
 * verification and evaluation.
 
-![Model, harness, and the resulting agent](/img/agent-harness-eval-driven-sdlc/02-model-harness-agent.png)
+```mermaid
+flowchart TB
+    MODEL["Model<br/><small>Reason · Plan · Generate</small>"]
+    HARNESS["Agent Harness"]
+    CONTEXT["Context"]
+    TOOLS["Tools"]
+    MEMORY["Memory"]
+    SANDBOX["Sandbox"]
+    STATE["State"]
+    POLICY["Policy"]
+    LOOP["Execution Loop"]
+    EVAL["Evaluation"]
+    AGENT["Agent"]
+    CONTEXT --> HARNESS
+    TOOLS --> HARNESS
+    MEMORY --> HARNESS
+    SANDBOX --> HARNESS
+    STATE --> HARNESS
+    POLICY --> HARNESS
+    LOOP --> HARNESS
+    EVAL --> HARNESS
+    MODEL --> AGENT
+    HARNESS --> AGENT
+```
 
 A useful analogy is:
 * **Model = brain**
@@ -96,12 +128,12 @@ A harness decides:
 * how results are verified.
 In February 2026, OpenAI published an engineering report describing an internal product built with **zero manually written code**.
 According to OpenAI, after five months the repository contained approximately:
-| Metric                     |                Reported result |
-| -------------------------- | -----------------------------: |
-| Code                       |               ~1 million lines |
-| Pull requests              |                         ~1,500 |
-| Initial engineering team   |                    3 engineers |
-| Average throughput         |      ~3.5 PRs / engineer / day |
+| Metric | Reported result |
+| --- | --- |
+| Code | ~1 million lines |
+| Pull requests | ~1,500 |
+| Initial engineering team | 3 engineers |
+| Average throughput | ~3.5 PRs / engineer / day |
 | Estimated development time | ~1/10 of manual implementation |
 The interesting result is not the amount of generated code.
 The important lesson was that the role of engineers changed.
@@ -118,21 +150,61 @@ This is where Harness Engineering connects directly with QC and Evaluation.
 ## The Rise of Agent Harnesses
 Most major AI companies are no longer building only models.
 They are also building systems around those models.
-| Company   | Model Layer     | Agent / Harness Layer         |
-| --------- | --------------- | ----------------------------- |
-| OpenAI    | GPT             | Codex, Agents SDK             |
-| Anthropic | Claude          | Claude Code, Agent SDK        |
-| Google    | Gemini          | Antigravity and Agent tooling |
-| DeepSeek  | DeepSeek models | DeepSeek Harness              |
+| Company | Model Layer | Agent / Harness Layer |
+| --- | --- | --- |
+| OpenAI | GPT | Codex, Agents SDK |
+| Anthropic | Claude | Claude Code, Agent SDK |
+| Google | Gemini | Antigravity and Agent tooling |
+| DeepSeek | DeepSeek models | DeepSeek Harness |
 A simplified architecture looks like this:
 
-![Simplified agent harness architecture](/img/agent-harness-eval-driven-sdlc/03-harness-architecture.png)
+```mermaid
+flowchart TB
+    USER["User / Engineer"]
+    HARNESS["Agent Harness"]
+    MODEL["Frontier Model"]
+    MCP["Tools / MCP"]
+    TERMINAL["Terminal"]
+    FILES["Filesystem"]
+    BROWSER["Browser"]
+    SANDBOX["Sandbox"]
+    STATE["State"]
+    VERIFY["Verifier"]
+    USER --> HARNESS
+    HARNESS --> MODEL
+    HARNESS --> MCP
+    HARNESS --> TERMINAL
+    HARNESS --> FILES
+    HARNESS --> BROWSER
+    HARNESS --> SANDBOX
+    HARNESS --> STATE
+    HARNESS --> VERIFY
+```
 
 A recent example is **DeepSeek Harness**, which uses an architecture based on the idea that:
 > Everything is a plugin.
 Models, tools, skills, sessions, storage, sandboxes, loops, and interfaces can be plugged into the same runtime.
 
-![DeepSeek Harness plugin architecture](/img/agent-harness-eval-driven-sdlc/04-deepseek-harness.png)
+```mermaid
+flowchart LR
+    CORE["Harness Core"]
+    MODEL["Model"]
+    TOOL["Tools"]
+    SKILL["Skills"]
+    SESSION["Session"]
+    SANDBOX["Sandbox"]
+    STORAGE["Storage"]
+    LOOP["Loop"]
+    UI["UI"]
+    MODEL --> CORE
+    TOOL --> CORE
+    SKILL --> CORE
+    SESSION --> CORE
+    SANDBOX --> CORE
+    STORAGE --> CORE
+    LOOP --> CORE
+    UI --> CORE
+```
 
 The rapid developer attention around projects like this should not be interpreted as proof that one harness is technically better than another.
 GitHub stars are **an attention signal, not a benchmark**.
@@ -144,7 +216,20 @@ Yes, and this is where recent research becomes particularly interesting.
 Long-running Agents have a difficult state-management problem.
 A typical implementation may keep all of the following inside an increasingly large context:
 
-![Growing agent context problem](/img/agent-harness-eval-driven-sdlc/05-growing-context.png)
+```mermaid
+flowchart TB
+    CONTEXT["Growing Agent Context"]
+    TASK["Task"]
+    HISTORY["Execution History"]
+    STATE["Task State"]
+    ERRORS["Errors"]
+    RESULT["Completion Assessment"]
+    TASK --> CONTEXT
+    HISTORY --> CONTEXT
+    STATE --> CONTEXT
+    ERRORS --> CONTEXT
+    RESULT --> CONTEXT
+```
 
 As the context grows, Agents may:
 * lose track of progress;
@@ -154,19 +239,30 @@ As the context grows, Agents may:
 The **LongHorizon-Harness** paper approaches the problem differently.
 It moves task state outside the execution context and introduces a:
 
-![Manage Execute Audit loop](/img/agent-harness-eval-driven-sdlc/06-manage-execute-audit.png)
+```mermaid
+flowchart LR
+    MANAGE["Manage<br/><small>Maintain explicit task state</small>"]
+    EXECUTE["Execute<br/><small>Fresh-context worker</small>"]
+    ENV["Environment"]
+    AUDIT["Audit<br/><small>Independent verification</small>"]
+    MANAGE --> EXECUTE
+    EXECUTE --> ENV
+    ENV --> AUDIT
+    AUDIT -->|"Verified state"| MANAGE
+    AUDIT -.->|"Failure"| EXECUTE
+```
 > **Manage → Execute → Audit**
 loop.
 
 The key idea is simple:
 > **Task state should only be updated after the resulting environment has been independently verified.**
 The reported results are significant:
-| Benchmark                        | Baseline | LongHorizon-Harness |
-| --------------------------------- | -------: | -------------------: |
-| Qwen 3.7 Plus · WeaveBench       |    51.8% |           **80.7%** |
-| Terminal-Bench 2.1               |    69.7% |           **77.2%** |
-| Qwen 3.7 Plus · OSWorld 2.0      |     2.8% |            **8.3%** |
-| Claude Opus 4.7 · OSWorld subset |    20.0% |           **34.3%** |
+| Benchmark | Baseline | LongHorizon-Harness |
+| --- | --- | --- |
+| Qwen 3.7 Plus · WeaveBench | 51.8% | **80.7%** |
+| Terminal-Bench 2.1 | 69.7% | **77.2%** |
+| Qwen 3.7 Plus · OSWorld 2.0 | 2.8% | **8.3%** |
+| Claude Opus 4.7 · OSWorld subset | 20.0% | **34.3%** |
 The model did not need to change.
 The execution architecture changed.
 And one of the most important components of that architecture was:
@@ -178,17 +274,28 @@ Another interesting paper is **Self-Harness: Harnesses That Improve Themselves**
 Instead of manually tuning the harness every time an Agent performs poorly, Self-Harness analyzes execution traces to find repeated failure patterns.
 Its process contains three main phases:
 
-![Self-Harness improvement cycle](/img/agent-harness-eval-driven-sdlc/07-self-harness-loop.png)
+```mermaid
+flowchart LR
+    RUN["Run Agent"]
+    TRACE["Execution<br/>Traces"]
+    WEAK["Weakness<br/>Mining"]
+    PROPOSE["Harness<br/>Proposal"]
+    REGRESSION["Regression<br/>Evaluation"]
+    ACCEPT{"Better?"}
+    RUN --> TRACE --> WEAK --> PROPOSE --> REGRESSION --> ACCEPT
+    ACCEPT -->|"Yes"| RUN
+    ACCEPT -->|"No"| PROPOSE
+```
 1. Weakness Mining
 2. Harness Proposal
 3. Proposal Validation
 
 The paper reports the following held-out Terminal-Bench 2.0 results:
-| Model           | Initial Harness | Self-Harness |
-| ---------------- | ---------------: | -----------: |
-| MiniMax M2.5    |           40.5% |    **61.9%** |
-| Qwen3.5-35B-A3B |           23.8% |    **38.1%** |
-| GLM-5           |           42.9% |    **57.1%** |
+| Model | Initial Harness | Self-Harness |
+| --- | --- | --- |
+| MiniMax M2.5 | 40.5% | **61.9%** |
+| Qwen3.5-35B-A3B | 23.8% | **38.1%** |
+| GLM-5 | 42.9% | **57.1%** |
 Again, the improvement does not come from training a more capable base model.
 The harness learns from failures.
 This leads to an important question:
@@ -215,7 +322,16 @@ But confirming that those changes correctly satisfy:
 can require substantially more work.
 Conceptually:
 
-![Generation outrunning verification](/img/agent-harness-eval-driven-sdlc/08-verification-bottleneck.png)
+```mermaid
+flowchart LR
+    GENERATE["Agent<br/>generates quickly"]
+    OUTPUT["Large amount<br/>of output"]
+    VERIFY["Verification<br/>capacity"]
+    QUEUE["Review / QC<br/>Bottleneck"]
+    GENERATE --> OUTPUT
+    OUTPUT --> VERIFY
+    VERIFY --> QUEUE
+```
 
 This creates a new engineering bottleneck:
 > **Generation scales faster than human verification.**
@@ -245,7 +361,20 @@ The software passed the verifier.
 It did not satisfy the original intent.
 The problem can be visualized as:
 
-![Information loss from intent to verifier](/img/agent-harness-eval-driven-sdlc/09-intent-loss.png)
+```mermaid
+flowchart TB
+    INTENT["Human Intent<br/><b>Export a correct invoice</b>"]
+    REQUIREMENT["Requirement<br/>Export invoices"]
+    ACCEPTANCE["Acceptance Criteria<br/>A CSV file is created"]
+    TEST["Verifier<br/>File exists"]
+    AGENT["Agent optimizes<br/>against verifier"]
+    OUTPUT["Incorrect CSV<br/>but test passes"]
+    INTENT -->|"Information loss"| REQUIREMENT
+    REQUIREMENT -->|"Information loss"| ACCEPTANCE
+    ACCEPTANCE -->|"Information loss"| TEST
+    TEST --> AGENT
+    AGENT --> OUTPUT
+```
 
 Every verifier we create is ultimately an approximation of human intent.
 This means:
@@ -276,7 +405,21 @@ An Eval might run hundreds of tasks and measure:
 * unnecessary file changes;
 * human escalation rate.
 
-![What an eval actually measures](/img/agent-harness-eval-driven-sdlc/10-eval-pipeline.png)
+```mermaid
+flowchart LR
+    DATASET["Eval Dataset"]
+    AGENT["Model + Harness"]
+    TRAJECTORY["Execution<br/>Trajectories"]
+    OUTCOME["Final<br/>Outcomes"]
+    GRADERS["Graders"]
+    METRICS["Metrics"]
+    DATASET --> AGENT
+    AGENT --> TRAJECTORY
+    TRAJECTORY --> OUTCOME
+    TRAJECTORY --> GRADERS
+    OUTCOME --> GRADERS
+    GRADERS --> METRICS
+```
 
 For Agent systems, we are rarely evaluating the model alone.
 We are evaluating:
@@ -323,7 +466,25 @@ Some behaviors can only be validated by executing the complete system.
 * Performance tests
 * Runtime logs and traces
 
-![Environment and scenario-based verification](/img/agent-harness-eval-driven-sdlc/11-scenario-verifiers.png)
+```mermaid
+flowchart LR
+    AGENT["Agent"]
+    APP["Running<br/>Application"]
+    BROWSER["Browser / E2E"]
+    LOGS["Logs"]
+    METRICS["Metrics"]
+    DB["Database"]
+    RESULT["Verification<br/>Result"]
+    AGENT --> APP
+    APP --> BROWSER
+    APP --> LOGS
+    APP --> METRICS
+    APP --> DB
+    BROWSER --> RESULT
+    LOGS --> RESULT
+    METRICS --> RESULT
+    DB --> RESULT
+```
 
 #### Pros
 * Closer to real user behavior
@@ -393,15 +554,24 @@ This means automation should help humans spend their attention where it matters 
 In practice, the strongest approach combines several verifier types.
 A useful model for Agentic SDLC is:
 
-![Multi-layer verification stack](/img/agent-harness-eval-driven-sdlc/12-layered-verification.png)
-| Layer | Verification | Examples                        |
-| ----- | ------------ | -------------------------------- |
-| L0    | Syntax       | compile, lint, typecheck        |
-| L1    | Functional   | unit, integration               |
-| L2    | Contract     | API, schema, compatibility      |
-| L3    | System       | browser, E2E, scenario          |
-| L4    | Quality      | security, performance, UX       |
-| L5    | Intent       | product, business, human review |
+```mermaid
+flowchart TB
+    L5["L5 · Intent<br/><small>Product · Business · Human</small>"]
+    L4["L4 · Quality<br/><small>Security · Performance · UX</small>"]
+    L3["L3 · System<br/><small>E2E · Browser · Scenario</small>"]
+    L2["L2 · Contract<br/><small>API · Schema · Compatibility</small>"]
+    L1["L1 · Functional<br/><small>Unit · Integration</small>"]
+    L0["L0 · Syntax<br/><small>Compile · Lint · Typecheck</small>"]
+    L0 --> L1 --> L2 --> L3 --> L4 --> L5
+```
+| Layer | Verification | Examples |
+| --- | --- | --- |
+| L0 | Syntax | compile, lint, typecheck |
+| L1 | Functional | unit, integration |
+| L2 | Contract | API, schema, compatibility |
+| L3 | System | browser, E2E, scenario |
+| L4 | Quality | security, performance, UX |
+| L5 | Intent | product, business, human review |
 
 Lower layers tend to be:
 * cheaper;
@@ -436,7 +606,22 @@ the run appears successful.
 But it may not be an Agent we want operating autonomously.
 Evaluation should therefore consider both:
 
-![Outcome quality and trajectory quality](/img/agent-harness-eval-driven-sdlc/13-eval-dimensions.png)
+```mermaid
+flowchart LR
+    EVAL["Agent Eval"]
+    OUTCOME["Outcome<br/>Quality"]
+    TRAJECTORY["Trajectory<br/>Quality"]
+    EVAL --> OUTCOME
+    EVAL --> TRAJECTORY
+    OUTCOME --> CORRECT["Correctness"]
+    OUTCOME --> INTENT["Intent"]
+    OUTCOME --> REGRESSION["Regression"]
+    TRAJECTORY --> COST["Cost"]
+    TRAJECTORY --> LATENCY["Latency"]
+    TRAJECTORY --> SAFETY["Safety"]
+    TRAJECTORY --> TOOLS["Tool Behavior"]
+    TRAJECTORY --> RETRIES["Retries"]
+```
 ### Outcome Quality
 * correctness;
 * user intent;
@@ -467,7 +652,32 @@ An Eval Contract describes both:
 2. how the result will be evaluated.
 It contains six important parts:
 
-![Six parts of an Eval Contract](/img/agent-harness-eval-driven-sdlc/14-eval-contract.png)
+```mermaid
+mindmap
+  root((Eval Contract))
+    Intent
+      User outcome
+      Business goal
+    Acceptance
+      Definition of done
+      Scenarios
+    Constraints
+      Architecture
+      Security
+      Compatibility
+    Evidence
+      Tests
+      Logs
+      Screenshots
+      Reports
+    Quality Bar
+      Performance
+      UX
+      Maintainability
+    Escalation
+      Risk boundary
+      Human decision
+```
 
 ### 1. Intent
 What outcome are we trying to create?
@@ -512,18 +722,41 @@ For example:
 ## How Does Eval-Driven SDLC Work?
 Once a task has an Eval Contract, QC output can become part of the Agent's execution loop.
 
-![Eval-driven SDLC execution loop](/img/agent-harness-eval-driven-sdlc/15-eval-driven-loop.png)
+```mermaid
+flowchart TB
+    TASK["Task + Eval Contract"]
+    AGENT["Agent"]
+    EXECUTE["Execute"]
+    VERIFY["Verify"]
+    PASS{"Pass?"}
+    CLASSIFY["Classify Failure"]
+    DEV["Implementation<br/>Problem"]
+    QC["Verifier<br/>Problem"]
+    PM["Requirement<br/>Problem"]
+    HUMAN["Risk / Human<br/>Decision"]
+    DONE["Next Step"]
+    TASK --> AGENT --> EXECUTE --> VERIFY --> PASS
+    PASS -->|"Yes"| DONE
+    PASS -->|"No"| CLASSIFY
+    CLASSIFY -->|"Logic"| DEV
+    CLASSIFY -->|"Test / Eval"| QC
+    CLASSIFY -->|"Ambiguous"| PM
+    CLASSIFY -->|"High Risk"| HUMAN
+    DEV --> EXECUTE
+    QC --> VERIFY
+    PM --> TASK
+```
 
 This is where QC becomes part of **orchestration** rather than only a final gate.
 A failed evaluation can determine the next action.
 For example:
-| Failure                | Next action           |
-| ----------------------- | ---------------------- |
-| Business logic failure | Implementation Agent  |
-| Incorrect test         | QC / Test Agent       |
-| Requirement ambiguity  | PM / BA               |
+| Failure | Next action |
+| --- | --- |
+| Business logic failure | Implementation Agent |
+| Incorrect test | QC / Test Agent |
+| Requirement ambiguity | PM / BA |
 | Architecture violation | Developer / Architect |
-| High-risk decision     | Human approval        |
+| High-risk decision | Human approval |
 This gives Multi-Agent systems a more practical reason to exist.
 Instead of creating many Agents simply because human SDLC has many roles:
 > **Evaluation signals determine which capability should act next.**
@@ -535,17 +768,26 @@ A better question is:
 > **For which class of tasks, with which verification level, should an Agent be allowed to merge automatically?**
 Autonomy is a spectrum.
 
-![Autonomy spectrum from L0 to L5](/img/agent-harness-eval-driven-sdlc/16-autonomy-spectrum.png)
+```mermaid
+flowchart LR
+    L0["L0<br/>AI Suggests"]
+    L1["L1<br/>AI Implements"]
+    L2["L2<br/>AI Validates"]
+    L3["L3<br/>AI Auto-Fixes"]
+    L4["L4<br/>Auto-Merge<br/>Low Risk"]
+    L5["L5<br/>Autonomous<br/>Delivery"]
+    L0 --> L1 --> L2 --> L3 --> L4 --> L5
+```
 
 A possible policy:
-| Level | Agent responsibility      | Human responsibility |
-| ----- | -------------------------- | ---------------------- |
-| L0    | Suggest                   | Execute               |
-| L1    | Implement                 | Review                |
-| L2    | Implement + validate      | Approve               |
-| L3    | Auto-fix                  | Policy gate            |
-| L4    | Merge low-risk work       | Monitor                |
-| L5    | Deliver inside boundaries | Handle exceptions      |
+| Level | Agent responsibility | Human responsibility |
+| --- | --- | --- |
+| L0 | Suggest | Execute |
+| L1 | Implement | Review |
+| L2 | Implement + validate | Approve |
+| L3 | Auto-fix | Policy gate |
+| L4 | Merge low-risk work | Monitor |
+| L5 | Deliver inside boundaries | Handle exceptions |
 This leads to a useful principle:
 ```text
 Maximum Safe Autonomy
@@ -583,14 +825,48 @@ Toward:
 
 The human moves **up the control loop**.
 
-![Human moves up the control loop](/img/agent-harness-eval-driven-sdlc/17-human-roles.png)
+```mermaid
+flowchart LR
+    OLD["Human<br/>creates artifact"]
+    NEW["Human<br/>defines the system"]
+    INTENT["Intent"]
+    CONSTRAINT["Constraints"]
+    EVAL["Evaluation"]
+    RISK["Risk"]
+    AGENT["Agent"]
+    OUTPUT["Artifact<br/>+ Evidence"]
+    OLD -.-> NEW
+    NEW --> INTENT
+    NEW --> CONSTRAINT
+    NEW --> EVAL
+    NEW --> RISK
+    INTENT --> AGENT
+    CONSTRAINT --> AGENT
+    EVAL --> AGENT
+    RISK --> AGENT
+    AGENT --> OUTPUT
+```
 
 ## A Practical Agentic SDLC Workflow
 For teams starting to introduce autonomous Agents, I would not begin by asking:
 > Which Coding Agent should we buy?
 I would start with the workflow.
 
-![Practical agentic SDLC workflow](/img/agent-harness-eval-driven-sdlc/18-practical-workflow.png)
+```mermaid
+flowchart LR
+    RISK["1. Classify<br/>Risk"]
+    CONTRACT["2. Eval<br/>Contract"]
+    EXECUTE["3. Execute<br/>in Sandbox"]
+    VERIFY["4. Verify"]
+    DECIDE["5. Decide<br/>Autonomy"]
+    LEARN["6. Learn<br/>from Failures"]
+    RISK --> CONTRACT
+    CONTRACT --> EXECUTE
+    EXECUTE --> VERIFY
+    VERIFY --> DECIDE
+    VERIFY --> LEARN
+    LEARN --> CONTRACT
+```
 ### Step 1: Classify Task Risk
 Classify work as:
 * low;
@@ -666,4 +942,10 @@ It is:
 Or more simply:
 > **Generation enables automation. Verification enables autonomy.**
 
-![From model to trustworthy autonomy](/img/agent-harness-eval-driven-sdlc/19-conclusion.png)
+```mermaid
+flowchart LR
+    MODEL["Model<br/><b>creates capability</b>"]
+    HARNESS["Harness<br/><b>turns capability<br/>into workflow</b>"]
+    EVAL["Evaluation<br/><b>makes autonomy<br/>trustworthy</b>"]
+    MODEL --> HARNESS --> EVAL
+```
